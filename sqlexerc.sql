@@ -29,3 +29,13 @@ WHERE return_date IS NOT NULL
   ORDER BY return_date DESC
   LIMIT 3;
 
+  --How many films are rated NC-17 and PG or PG-13
+SELECT COUNT(*)
+FROM film
+WHERE rating= 'NC-17' OR rating = 'PG' OR rating = 'PG-13';
+
+--HOW many d/t customers have entires in the rental table?
+SELECT COUNT(DISTINCT customer_id)
+FROM rental;  --599
+
+
