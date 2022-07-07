@@ -38,4 +38,18 @@ WHERE rating= 'NC-17' OR rating = 'PG' OR rating = 'PG-13';
 SELECT COUNT(DISTINCT customer_id)
 FROM rental;  --599
 
+--**********************
+--LIKE & NOT LIKE
+SELECT COUNT(*)
+FROM customer
+WHERE first_name NOT LIKE 'A%';
+
+SELECT *
+FROM actor 
+WHERE first_name LIKE 'A___';
+
+--BETWEEN
+SELECT *
+FROM customer 
+WHERE customer_id BETWEEN 5 AND 10;
 
