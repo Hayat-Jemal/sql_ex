@@ -53,3 +53,21 @@ SELECT *
 FROM customer 
 WHERE customer_id BETWEEN 5 AND 10;
 
+--IN and NOT IN
+SELECT *
+FROM customer 
+WHERE first_name IN ('Jennifer','Elizabeth', 'Susan')
+
+SELECT *
+FROM customer 
+WHERE first_name NOT IN ('Jennifer','Elizabeth', 'Susan')
+
+
+--IN with in sub query
+--it returns someone who doesn't rent a film 
+SELECT *
+FROM customer
+WHERE customer_id NOT IN(
+   SELECT customer_id 
+   FROM rental);
+  
