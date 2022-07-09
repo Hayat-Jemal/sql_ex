@@ -71,3 +71,17 @@ WHERE customer_id NOT IN(
    SELECT customer_id 
    FROM rental);
   
+  --it returns only the customer_id who doesn't return the rented film  
+SELECT customer_id ,return_date
+FROM rental
+WHERE return_date IS NULL;
+
+--it returns full information about the customer_id who doesn't return the rented film
+SELECT *
+FROM customer 
+WHERE customer_id IN (
+    SELECT customer_id
+    FROM rental
+    WHERE return_date IS NULL
+);
+
