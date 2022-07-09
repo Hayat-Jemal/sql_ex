@@ -85,3 +85,23 @@ WHERE customer_id IN (
     WHERE return_date IS NULL
 );
 
+--SUM
+--it returns total amount of payment
+SELECT sum(amount)
+FROM payment;
+--it returns the sum of payment for individual customer
+SELECT customer_id , SUM(amount)
+FROM payment
+GROUP BY customer_id;
+
+--COUNT
+SELECT COUNT(DISTINCT customer_id)
+FROM payment;
+
+--CAST
+--it returns how much a customer pays per day
+SELECT customer_id, CAST(payment_date AS DATE),SUM(amount)
+FROM payment
+WHERE customer_id = 3
+GROUP BY customer_id, CAST(payment_date AS DATE)
+ORDER BY payment_date DESC;
