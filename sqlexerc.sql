@@ -105,3 +105,18 @@ FROM payment
 WHERE customer_id = 3
 GROUP BY customer_id, CAST(payment_date AS DATE)
 ORDER BY payment_date DESC;
+
+--HAVING
+SELECT customer_id 
+     ,CAST(payment_date AS DATE)
+	 ,SUM(amount)
+FROM payment
+GROUP BY customer_id, CAST(payment_date AS DATE)
+HAVING SUM(amount) > 10
+ORDER BY customer_id;
+
+--
+SELECT customer_id, count(payment_id)
+FROM payment
+GROUP BY customer_id
+ORDER BY COUNT(payment_id) DESC;
