@@ -120,3 +120,25 @@ SELECT customer_id, count(payment_id)
 FROM payment
 GROUP BY customer_id
 ORDER BY COUNT(payment_id) DESC;
+
+--the amount of rent by a customer
+SELECT customer_id, COUNT(rental_id) 
+FROM rental 
+GROUP BY customer_id
+ORDER BY customer_id;
+
+
+SELECT customer_id, COUNT(rental_id) 
+FROM rental 
+GROUP BY customer_id
+ORDER BY  COUNT(rental_id) DESC
+LIMIT 10;
+
+--AVG
+SELECT customer_id, ROUND(AVG(amount), 2) 
+FROM payment
+GROUP BY customer_id
+ORDER BY ROUND(AVG(amount), 2) DESC
+
+
+
