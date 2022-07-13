@@ -141,4 +141,19 @@ GROUP BY customer_id
 ORDER BY ROUND(AVG(amount), 2) DESC
 
 
+SELECT city.country_id, country,
+    COUNT(city) numbrt_of_cities
+FROM city
+    INNER JOIN country
+	ON city.country_id=country.country_id
+GROUP BY city.country_id, country
+ORDER BY numbrt_of_cities DESC
 
+--how money cities in Ethiopia
+SELECT city.country_id, country,
+    COUNT(city) number_of_cities
+FROM city 
+    INNER JOIN country
+	ON city.country_id=country.country_id
+WHERE country='Ethiopia'
+GROUP BY  city.country_id ,country;
