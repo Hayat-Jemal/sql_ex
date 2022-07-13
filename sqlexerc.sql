@@ -140,7 +140,7 @@ FROM payment
 GROUP BY customer_id
 ORDER BY ROUND(AVG(amount), 2) DESC
 
-
+--JOIN
 SELECT city.country_id, country,
     COUNT(city) numbrt_of_cities
 FROM city
@@ -157,3 +157,21 @@ FROM city
 	ON city.country_id=country.country_id
 WHERE country='Ethiopia'
 GROUP BY  city.country_id ,country;
+
+
+--number of cities for each coutry and country names
+SELECT ct.country_id, country, COUNT(city) AS number_of_cities
+FROM country cr
+    LEFT JOIN city ct
+	ON cr.country_id =ct.country_id 
+GROUP BY ct.country_id, country 
+ORDER BY COUNT(city) DESC;
+
+--return list of customers that haven't rentedany more so far? 
+SELECT c.*
+FROM customer c
+  LEFT JOIN rental r
+  ON c.customer_id= r.customer_id
+WHERE r.customer_id IS NULL;
+
+
