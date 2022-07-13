@@ -175,3 +175,12 @@ FROM customer c
 WHERE r.customer_id IS NULL;
 
 
+--what is the average rental rate for each genere?
+SELECT ROUND(AVG(f.rental_rate), 2), ct.name 
+FROM category ct
+     INNER JOIN film_category fc
+	 ON ct.category_id=fc.category_id
+	 INNER JOIN film f
+	 ON fc.category_id= f.film_id
+GROUP BY ct.name
+ORDER BY AVG(f.rental_rate) DESC;
