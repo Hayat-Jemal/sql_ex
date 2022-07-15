@@ -184,3 +184,30 @@ FROM category ct
 	 ON fc.category_id= f.film_id
 GROUP BY ct.name
 ORDER BY AVG(f.rental_rate) DESC;
+
+--UNION/UNION ALL, THE FASTERST IS UNION ALL BECAUSE IT DOESN'T DO ANY OPERATION, IT JUST MERGES TWO --
+--EXCEPT RETURNS ONLY ROWS THAT APPEAR IN THE FIRST RESULT SET BUT DO NOT APPEAR IN THE SECOND-- 
+
+--all the payment made by customers from beggning to end--
+SELECT customer_id, SUM (amount)
+FROM payment
+GROUP BY customer_id
+ORDER BY 2; 
+
+SELECT *
+FROM payment; 
+
+--customer spending  is between 0 & 30 and between 30 & 60--
+SELECT 
+    customer_id, 
+    Total_spend,
+    CASE WHEN Total_spend <= 30 THEN 'Bronze'
+         WHEN Total_spend >30 AND Total_spend <= 60 THEN 'Silver'
+         WHEN Total_spend >60 AND Total_spend <= 90 THEN 'Gold'
+         WHEN Total_spend >90 THEN 'Diamond'
+    END AS Customer_grading
+FROM (
+        SELECT customer_id, SUM (amount) AS Total_spend
+        FROM payment
+        GROUP BY customer_id
+        ORDER BY 2 ) sub;
