@@ -243,4 +243,25 @@ SELECT
          WHEN Total_spend <= 90 THEN 'Gold'
          ELSE 'Diamond'
     END AS Customer_grading
-FROM sub;        
+FROM sub;      
+
+--create more temporary table--
+--use the same WITH and separate the tables using coma-- 
+WITH sub AS (SELECT customer_id, SUM (amount) AS Total_spend
+        FROM payment
+        GROUP BY customer_id
+        ORDER BY 2 ), 
+        customer_grading AS (SELECT 
+                                   customer_id, 
+                                   Total_spend,
+                             CASE WHEN Total_spend <= 30 THEN 'Bronze'
+                             WHEN Total_spend <= 60 THEN 'Silver'
+                             WHEN Total_spend <= 90 THEN 'Gold'
+                             ELSE 'Diamond'
+                          END AS Customer_grading
+FROM sub)
+
+SELECT customer_grading, COUNT (customer_grading)
+FROM customer_grading
+GROUP BY Customer_grading
+ORDER BY 2;
