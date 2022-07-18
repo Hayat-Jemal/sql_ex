@@ -265,3 +265,24 @@ SELECT customer_grading, COUNT (customer_grading)
 FROM customer_grading
 GROUP BY Customer_grading
 ORDER BY 2;
+
+--WINDOW FUNCTIONS--
+SELECT customer_id, DATE(payment_date), SUM (amount) AS Total_spend
+FROM payment 
+GROUP BY 1, 2; 
+
+SELECT *
+,SUM (amount) OVER (PARTITION BY customer_id) AS Total_spend
+FROM payment 
+ORDER BY customer_id;
+
+SELECT *
+,SUM (amount) OVER (PARTITION BY staff_id) AS Total_spend
+FROM payment 
+ORDER BY staff_id;
+
+SELECT staff_id,
+       payment_date
+,SUM (amount) OVER (--PARTITION BY staff_id
+    ORDER BY payment_date) AS Total_spend
+FROM payment 
