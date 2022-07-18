@@ -225,4 +225,22 @@ FROM (
 FROM (
         SELECT customer_id, SUM (amount) AS Total_spend
         FROM payment
-        GROUP BY customer_id      
+        GROUP BY customer_id  
+         ORDER BY 2 ) sub;    
+
+ -- Creating temporary table, writing codes this way is cleaner and helps to do additional analysis--
+--Common Table Expressions (CTE) --
+WITH sub AS (SELECT customer_id, SUM (amount) AS Total_spend
+        FROM payment
+        GROUP BY customer_id
+        ORDER BY 2 )
+        
+SELECT 
+    customer_id, 
+    Total_spend,
+    CASE WHEN Total_spend <= 30 THEN 'Bronze'
+         WHEN Total_spend <= 60 THEN 'Silver'
+         WHEN Total_spend <= 90 THEN 'Gold'
+         ELSE 'Diamond'
+    END AS Customer_grading
+FROM sub;        
