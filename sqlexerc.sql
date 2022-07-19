@@ -286,3 +286,18 @@ SELECT staff_id,
 ,SUM (amount) OVER (--PARTITION BY staff_id
     ORDER BY payment_date) AS Total_spend
 FROM payment 
+
+--ORDER BY DATE(payment_date) DESC;
+SELECT staff_id,
+       DATE(payment_date)
+,SUM (amount) OVER (PARTITION BY staff_id ORDER BY payment_date) AS Total_spend,
+ROW_NUMBER () OVER (ORDER BY payment_date) AS row_no
+FROM payment; 
+
+SELECT customer_id,
+       amount,
+      SUM (amount) OVER (ORDER BY customer_id) AS Total_spend,
+      ROW_NUMBER () OVER (PARTITION BY customer_id ORDER BY amount) AS row_no,
+      RANK () OVER (PARTITION BY customer_id ORDER BY amount) AS Rk,
+      DENSE_RANK () OVER (PARTITION BY customer_id ORDER BY amount ) AS Dr
+FROM payment; 
