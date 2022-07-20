@@ -301,3 +301,40 @@ SELECT customer_id,
       RANK () OVER (PARTITION BY customer_id ORDER BY amount) AS Rk,
       DENSE_RANK () OVER (PARTITION BY customer_id ORDER BY amount ) AS Dr
 FROM payment; 
+
+GROUP WORK
+--question 1
+--A)Write ALL the queries we need to rent out a given movie. (Hint: these are the business logics that go into this task: first confirm that the given movie is in stock, and then INSERT a row into the rental and the payment tables. You may also need to check whether the customer has an outstanding balance or an overdue rental before allowing him/her to rent a new DVD).
+--confirm that the given movie is in stock
+SELECT title,film_id
+FROM film
+WHERE title='Airport Pollock'  --its exist in stock
+
+--inserting data for new customer  
+SELECT *
+FROM customer
+WHERE first_name='Linda' and last_name = 'Jones' --it doesn't exist
+
+INSERT INTO customer (customer_id,store_id, first_name, last_name, email,address_id,activebool,active)
+       VALUES (600,2, 'Linda', 'Jones','linda.jones@sakilacustomer.org',605,true,1);
+
+--inserting data into rental table
+SELECT *
+FROM inventory
+order by inventory_id DESC 
+
+INSERT INTO inventory (inventory_id, film_id, store_id)
+        VALUES (4582, 8, 2);
+SELECT *
+FROM rental
+ORDER by rental_id desc
+
+INSERT INTO rental (rental_id,rental_date, inventory_id, customer_id,staff_id)
+        VALUES (16050, '2022-07-09 04:02:15',4582 ,600, 2);
+		
+SELECT *
+FROM payment
+ORDER BY payment_id desc
+
+INSERT INTO payment (payment_id, customer_id, staff_id, rental_id,amount,payment_date)
+        VALUES (32099, 600, 2, 16050,2.99,'2022-07-09 04:02:15');		
