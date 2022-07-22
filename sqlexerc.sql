@@ -338,3 +338,14 @@ ORDER BY payment_id desc
 
 INSERT INTO payment (payment_id, customer_id, staff_id, rental_id,amount,payment_date)
         VALUES (32099, 600, 2, 16050,2.99,'2022-07-09 04:02:15');		
+
+--B)write ALL the queries we need to process return of a rented movie. (Hint: update the rental table and add the return date by first identifying the rental_id to update based on the inventory_id of the movie being returned.)
+SELECT *
+FROM rental
+ORDER by rental_id desc
+
+UPDATE rental
+SET 
+    return_date = '2022-07-09 06:30:35'
+WHERE
+    rental_id = 16050;
