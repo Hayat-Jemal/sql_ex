@@ -349,3 +349,42 @@ SET
     return_date = '2022-07-09 06:30:35'
 WHERE
     rental_id = 16050;
+
+ --question 2
+--A)Which movie genres are the most and least popular? And how much revenue have they each generated for the business?
+--the most popular and the highest revenue with the least popular and the lowest revenue
+WITH highest AS (SELECT ct.category_id,name,COUNT(rental_rate) number_of_rental_rate,SUM(amount) revenue
+FROM category ct
+   INNER JOIN film_category fc
+   ON ct.category_id = fc.category_id 
+   INNER JOIN film f
+   ON f.film_id = fc.film_id
+    INNER JOIN inventory iv
+   ON f.film_id = iv.film_id
+   INNER JOIN rental r
+   ON r.inventory_id = iv.inventory_id
+   INNER JOIN payment p
+   ON p.rental_id = r.rental_id 
+   GROUP BY ct.category_id,name
+ORDER BY SUM(amount) DESC
+LIMIT 1 ),
+lowest AS (SELECT ct.category_id,name,COUNT(rental_rate) number_of_rental_rate,SUM(amount) revenue
+           FROM category ct
+                INNER JOIN film_category fc
+                ON ct.category_id = fc.category_id 
+                INNER JOIN film f
+                ON f.film_id = fc.film_id
+                INNER JOIN inventory iv
+                ON f.film_id = iv.film_id
+                INNER JOIN rental r
+                ON r.inventory_id = iv.inventory_id
+                INNER JOIN payment p
+                ON p.rental_id = r.rental_id
+         GROUP BY ct.category_id,name
+         ORDER BY SUM(amount) 
+         LIMIT 1 ) 
+SELECT * 
+FROM highest
+UNION ALL
+SELECT * 
+FROM lowes        
