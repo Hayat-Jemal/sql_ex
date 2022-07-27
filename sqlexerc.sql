@@ -399,3 +399,14 @@ FROM category ct
 GROUP BY ct.category_id,name
 ORDER BY COUNT(rental_rate) DESC 
 LIMIT 1 
+
+--the least popular movie
+SELECT DISTINCT(fc.category_id),name,COUNT(rental_rate) number_of_rental_rate
+FROM category ct
+   INNER JOIN film_category fc
+   ON ct.category_id = fc.category_id 
+   INNER JOIN film f
+   ON f.film_id = fc.film_id
+GROUP BY fc.category_id,name
+ORDER BY COUNT(rental_rate) 
+LIMIT 1 
