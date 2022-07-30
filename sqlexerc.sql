@@ -428,3 +428,20 @@ FROM category ct
    ON p.rental_id = r.rental_id
 GROUP BY ct.category_id,name
 ORDER BY SUM(amount) DESC
+
+--it returns the least popular and the lowest revenue
+
+SELECT ct.category_id,name,COUNT(rental_rate) number_of_rental_rate,SUM(amount) revenue
+FROM category ct
+   INNER JOIN film_category fc
+   ON ct.category_id = fc.category_id 
+   INNER JOIN film f
+   ON f.film_id = fc.film_id
+    INNER JOIN inventory iv
+   ON f.film_id = iv.film_id
+   INNER JOIN rental r
+   ON r.inventory_id = iv.inventory_id
+   INNER JOIN payment p
+   ON p.rental_id = r.rental_id
+GROUP BY ct.category_id,name
+ORDER BY SUM(amount) 
