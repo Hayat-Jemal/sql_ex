@@ -445,3 +445,31 @@ FROM category ct
    ON p.rental_id = r.rental_id
 GROUP BY ct.category_id,name
 ORDER BY SUM(amount) 
+
+--it returns the highest revenue
+SELECT ct.category_id,name, SUM(amount) revenue
+FROM category ct
+   INNER JOIN film_category fc
+   ON ct.category_id = fc.category_id 
+   INNER JOIN film f
+   ON f.film_id = fc.film_id
+   INNER JOIN inventory iv
+   ON f.film_id = iv.film_id
+   INNER JOIN rental r
+   ON r.inventory_id = iv.inventory_id
+   INNER JOIN payment p
+   ON p.rental_id = r.rental_id
+GROUP BY ct.category_id,name
+ORDER BY SUM(amount) DESC 
+LIMIT 1
+
+--B)What are the top 10 most popular movies? And how many times have they each been rented out thus far?
+select title,rental_rate, COUNT(rental_id) 
+from film f
+   INNER JOIN inventory iv
+   ON f.film_id = iv.film_id
+   INNER JOIN rental r
+   ON r.inventory_id = iv.inventory_id
+GROUP BY f.film_id
+ORDER BY rental_rate DESC
+LIMIT 10
