@@ -473,3 +473,26 @@ from film f
 GROUP BY f.film_id
 ORDER BY rental_rate DESC
 LIMIT 10
+
+--C)Which genres have the highest and the lowest average rental rate?
+--the highest average rental rate Genere
+SELECT name, ROUND(AVG(rental_rate),2) avg_number_of_rental_rate
+FROM category ct
+   INNER JOIN film_category fc
+   ON ct.category_id = fc.category_id 
+   INNER JOIN film f
+   ON f.film_id = fc.film_id
+GROUP BY name
+ORDER BY AVG(rental_rate) DESC    
+LIMIT 1      --Games
+
+--the lowest average rental rate Genere
+SELECT name, ROUND(AVG(rental_rate),2) avg_number_of_rental_rate
+FROM category ct
+   INNER JOIN film_category fc
+   ON ct.category_id = fc.category_id 
+   INNER JOIN film f
+   ON f.film_id = fc.film_id
+GROUP BY name
+ORDER BY AVG(rental_rate)  
+LIMIT 1  --Action
