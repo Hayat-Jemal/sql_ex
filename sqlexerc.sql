@@ -496,3 +496,16 @@ FROM category ct
 GROUP BY name
 ORDER BY AVG(rental_rate)  
 LIMIT 1  --Action
+
+--D)How many rented movies were returned late? Is this somehow correlated with the genre of a movie?
+WITH date_difference AS (SELECT * ,DATE(return_date)-DATE(rental_date) As date_differ		 
+   FROM rental),
+   date_return AS (SELECT rental_duration, date_differ
+				     FROM film f
+                     LEFT JOIN inventory i
+	                 ON f.film_id = i.film_id
+	                 LEFT JOIN date_difference dd
+	                 ON dd.inventory_id = i.inventory_id
+	                 WHERE date_differ > rental_duration )
+    SELECT COUNT(date_return) AS late_return
+    FROM date_return
