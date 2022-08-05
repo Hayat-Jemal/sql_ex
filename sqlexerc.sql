@@ -538,3 +538,19 @@ GROUP BY a.city_id,city
 ORDER BY count(r.rental_id) )
 SELECT sum(no_of_rented_customer)
 FROM sub
+
+--the top 5 cities in terms of total sales volume
+SELECT a.city_id,city, 
+	   SUM(p.amount) 
+FROM city
+    INNER JOIN address  a
+	ON city.city_id = a.city_id
+	INNER JOIN customer cst
+	ON cst.address_id = a.address_id
+	INNER JOIN rental r
+	ON r.customer_id = cst.customer_id
+	INNER JOIN payment p
+	ON p.rental_id = r.rental_id
+GROUP BY a.city_id,city
+ORDER BY SUM(p.amount) DESC
+LIMIT 5
