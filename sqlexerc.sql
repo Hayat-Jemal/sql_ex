@@ -509,3 +509,32 @@ WITH date_difference AS (SELECT * ,DATE(return_date)-DATE(rental_date) As date_d
 	                 WHERE date_differ > rental_duration )
     SELECT COUNT(date_return) AS late_return
     FROM date_return
+
+    --E)What are the top 5 cities that rent the most movies? How about in terms of total sales volume?
+SELECT a.city_id,city,
+       count(r.rental_id) no_of_rented_customer
+FROM city
+    INNER JOIN address  a
+	ON city.city_id = a.city_id
+	INNER JOIN customer cst
+	ON cst.address_id = a.address_id
+	INNER JOIN rental r
+	ON r.customer_id = cst.customer_id
+GROUP BY a.city_id,city
+ORDER BY count(r.rental_id) DESC
+LIMIT 5
+
+--to check the exact result
+WITH sub AS (SELECT a.city_id,city,
+       count(r.rental_id) no_of_rented_customer
+FROM city
+    INNER JOIN address  a
+	ON city.city_id = a.city_id
+	INNER JOIN customer cst
+	ON cst.address_id = a.address_id
+	INNER JOIN rental r
+	ON r.customer_id = cst.customer_id
+GROUP BY a.city_id,city
+ORDER BY count(r.rental_id) )
+SELECT sum(no_of_rented_customer)
+FROM sub
