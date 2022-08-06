@@ -554,3 +554,24 @@ FROM city
 GROUP BY a.city_id,city
 ORDER BY SUM(p.amount) DESC
 LIMIT 5
+
+--F)let's say you want to give discounts as a reward to your loyal customers and those who return movies they rented on time. So, who are your 10 best customers in this respect?
+--with out customer_id
+WITH date_difference AS (
+     SELECT *, DATE(return_date),DATE(rental_date),DATE(return_date)-DATE(rental_date) As date_differ
+     FROM rental
+     INNER JOIN customer c
+     ON c.customer_id = rental.customer_id	),	
+   movies_return_date AS (
+    SELECT  first_name,last_name, rental_duration,date_differ
+    FROM film f
+    INNER JOIN inventory i
+    ON f.film_id = i.film_id
+    INNER JOIN date_difference dd
+    ON dd.inventory_id = i.inventory_id
+    WHERE date_differ <= rental_duration)     
+SELECT *
+FROM movies_return_date
+GROUP BY rental_duration,date_differ,first_name,last_name
+ORDER BY date_differ
+LIMIT 10
