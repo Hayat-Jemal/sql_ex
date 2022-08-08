@@ -575,3 +575,23 @@ FROM movies_return_date
 GROUP BY rental_duration,date_differ,first_name,last_name
 ORDER BY date_differ
 LIMIT 10
+
+--with customer_id
+WITH date_difference AS (SELECT DATE(return_date),DATE(rental_date),DATE(return_date)-DATE(rental_date) As date_differ ,
+						 inventory_id,first_name,last_name,rental.customer_id 
+   FROM rental
+	  INNER JOIN customer c
+	  ON c.customer_id = rental.customer_id	),	
+   movies_return_date AS (SELECT  first_name,last_name, rental_duration,date_differ,customer_id
+				     FROM film f
+                     INNER JOIN inventory i
+	                 ON f.film_id = i.film_id
+	                 INNER JOIN date_difference dd
+	                 ON dd.inventory_id = i.inventory_id
+				     WHERE date_differ <= rental_duration)     
+    SELECT *
+    FROM movies_return_date
+	GROUP BY DISTINCT customer_id,rental_duration,date_differ,first_name,last_name
+	ORDER BY date_differ
+	LIMIT 10
+	
