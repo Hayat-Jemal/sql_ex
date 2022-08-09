@@ -594,4 +594,34 @@ WITH date_difference AS (SELECT DATE(return_date),DATE(rental_date),DATE(return_
 	GROUP BY DISTINCT customer_id,rental_duration,date_differ,first_name,last_name
 	ORDER BY date_differ
 	LIMIT 10
+
+    --G)What are the 10 best rated movies? Is customer rating somehow correlated with revenue?
+--Which actors have acted in most number of the most popular or highest rated movies?
+--the most popular movie
+SELECT film.title, film.rental_rate, CONCAT(first_name, ' ', last_name) Actor_name
+FROM film
+INNER JOIN film_actor on
+film.film_id = film_actor.film_id
+INNER JOIN actor on
+film_actor.actor_id = actor.actor_id
+ORDER BY rental_rate DESC
+LIMIT 10
+-- WITH most_popular_movies AS (select  title,rental_rate,f.film_id
+-- from film f
+--    INNER JOIN inventory iv
+--    ON f.film_id = iv.film_id
+--    INNER JOIN rental r
+--    ON r.inventory_id = iv.inventory_id
+-- GROUP BY f.film_id
+-- ORDER BY rental_rate DESC
+-- LIMIT 10),
+-- actors AS (
+-- SELECT actor_id,first_name,last_name,title,rental_rate
+-- FROM actor a
+-- JOIN film_actor USING (actor_id)
+-- JOIN most_popular_movies mpm USING  (film_id)
+-- GROUP BY actor_id,first_name,last_name,film_id,title,rental_rate
+-- ORDER BY rental_rate)
+-- SELECT *
+-- FROM actors
 	
