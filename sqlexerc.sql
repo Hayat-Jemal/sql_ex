@@ -625,3 +625,15 @@ LIMIT 10
 -- SELECT *
 -- FROM actors
 	
+--H)Rentals and hence revenues have been falling behind among young families. In order to reverse this, you wish to target all family movies for a promotion. Identify all movies categorized as family films.
+SELECT DISTINCT(title), category.name
+FROM category
+INNER JOIN film_category ON film_category.category_id = category.category_id
+INNER JOIN film ON film.film_id=film.film_id
+WHERE category.name='Family'
+
+--I)How much revenue has each store generated so far?
+SELECT store_id, SUM(amount) revenue
+FROM payment
+JOIN staff USING (staff_id)
+GROUP BY store_id
